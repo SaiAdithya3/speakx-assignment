@@ -13,7 +13,7 @@ import { IoSearchSharp } from "react-icons/io5";
 const Sidebar = () => {
     return (
         <>
-            <div className="flxed left-0 top-0 bg-black h-screen justify-between flex flex-col pl-16 p-3 border-r border-zinc-700/90">
+            <div className="z-50 flxed left-0 top-0 bg-black h-screen justify-between flex flex-col pl-16 p-3 border-r border-zinc-700/90">
                 <div className="flex flex-col gap-2">
 
                     <div className="logo p-2 flex items-start w-full">
