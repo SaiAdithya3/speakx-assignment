@@ -1,4 +1,5 @@
 import Post from '../models/post.js';
+import User from '../models/user.js';
 
 export const createPost = async (req, res) => {
     try {
@@ -73,7 +74,6 @@ export const getPostById = async (req, res) => {
 };
 
 
-// getPostsByUser function
 export const getPostsByUser = async (req, res) => {
     try {
         // const { userId } = req.body;
@@ -104,6 +104,52 @@ export const updatePostByUser = async (req, res) => {
         }
 
         res.status(200).json(updatedPost);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const likePost = async (req, res) => {
+    try {
+        const { postId, userId } = req.body;
+        console.log('Received postId:', postId);
+        console.log('Received userId:', userId);
+
+        // Find the post
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        // Initialize the likes array if it's undefined
+        if (!post.likes) {
+            post.likes = [];
+        }
+
+        // Check if the post is already liked by the user
+        if (post.likes.includes(userId)) {
+            return res.status(400).json({ message: 'Post already liked by the user' });
+        }
+
+        // Push the userId into the likes array and increment likesCount
+        post.likes.push(userId);
+        post.likesCount += 1;
+
+        // Save the updated post
+        await post.save();
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+       
+        // user.likedPosts.push(postId);
+        // await user.save();
+
+        res.status(200).json({ message: 'Post liked successfully', post });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

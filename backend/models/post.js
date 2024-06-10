@@ -22,10 +22,13 @@ const postSchema = new mongoose.Schema(
         imageUrls: [{
             type: String,
         }],
-        likes: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
+        likes: {
+            type: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }],
+            default: []
+        },
         comments: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
@@ -37,6 +40,7 @@ const postSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
 
 const Post = mongoose.model("Post", postSchema);
 

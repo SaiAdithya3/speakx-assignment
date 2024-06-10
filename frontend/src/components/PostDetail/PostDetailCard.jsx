@@ -8,7 +8,9 @@ import { SiSimpleanalytics } from "react-icons/si";
 import { GoBookmark } from "react-icons/go";
 import { FiShare } from "react-icons/fi";
 import CreatePost from '../center/CreatePost';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -17,8 +19,31 @@ const formatTimestamp = (timestamp) => {
 
 const PostDetailCard = (props) => {
     const { post } = props;
+    const userId = JSON.parse(localStorage.getItem('user'))._id;
+    //   console.log(userId);
+
+    const renderContentWithTags = () => {
+        return post.content.split(/(#\S+)/).map((part, index) => {
+            if (post.tags.includes(part)) {
+                return <span key={index} style={{ color: '#1d9bf0', paddingLeft: '2px' }}>{part}</span>;
+            } else {
+                return <span key={index}>{part}</span>;
+            }
+        });
+    };
 
     if (!post || !post.author) return <div>Loading...</div>;
+
+    const handleLike = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/posts/like', { postId: post._id, userId: userId });
+            console.log(response.data);
+            toast.success('Post liked successfully')
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to like post')
+        }
+    };
 
     return (
         <>
@@ -38,7 +63,7 @@ const PostDetailCard = (props) => {
                     {/* post goes here */}
                     <div className="w-full py-4">
                         <p className="text-white text-sm">
-                            {post.content}
+                            {renderContentWithTags()}
                         </p>
                         {post.imageUrls.length === 4 && (
                             <div className="w-full flex flex-wrap items-center justify-between gap-2">
@@ -86,7 +111,7 @@ const PostDetailCard = (props) => {
                             <RxLoop />
                             <h1 className='text-xs'>{post.shares}</h1>
                         </div>
-                        <div className="flex items-center gap-1 hover:text-pink-500 cursor-pointer">
+                        <div className="flex items-center gap-1 hover:text-pink-500 cursor-pointer" onClick={handleLike}>
                             <FaRegHeart />
                             <h1 className='text-xs'>{post.likes.length}</h1>
                         </div>
