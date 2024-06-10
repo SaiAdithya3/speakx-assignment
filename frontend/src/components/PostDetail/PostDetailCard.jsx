@@ -38,7 +38,7 @@ const PostDetailCard = (props) => {
 
     const handleLike = async () => {
         try {
-            const response = await axios.post('https://speakx-assignment-pj4w.onrender.composts/like', { postId: post._id, userId: userId });
+            const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/posts/like', { postId: post._id, userId: userId });
             console.log(response.data);
             toast.success('Post liked successfully')
         } catch (error) {

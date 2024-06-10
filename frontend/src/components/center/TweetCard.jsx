@@ -27,7 +27,7 @@ const TweetCard = (props) => {
 
   const handleLike = async () => {
     try {
-      const response = await axios.post('https://speakx-assignment-pj4w.onrender.composts/like', { postId: tweet._id, userId: userId });
+      const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/posts/like', { postId: tweet._id, userId: userId });
       setLikes(response.data.post.likes.length);
       // console.log(response.data.post.likes.length);
       // console.log(response.data);

@@ -29,8 +29,8 @@ const ProfileDetail = (props) => {
     const handleFollowClick = async () => {
         try {
             const response = isFollowing 
-                ? await axios.post('https://speakx-assignment-pj4w.onrender.comusers/unfollow', { userId: userId, followId: profile._id }) 
-                : await axios.post('https://speakx-assignment-pj4w.onrender.comusers/follow', { userId: userId, followId: profile._id });
+                ? await axios.post('https://speakx-assignment-pj4w.onrender.com/api/users/unfollow', { userId: userId, followId: profile._id }) 
+                : await axios.post('https://speakx-assignment-pj4w.onrender.com/api/users/follow', { userId: userId, followId: profile._id });
 
             setIsFollowing(!isFollowing); 
             toast.success(response.data.message);
