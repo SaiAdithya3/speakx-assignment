@@ -1,27 +1,16 @@
 import mongoose from "mongoose";
 
-const postSchema = new mongoose.Schema(
+const commentSchema = new mongoose.Schema(
     {
         content: {
             type: String,
             required: true,
-            maxlength: 280,
-        },
-        description: {
-            type: String,
-            maxlength: 500,
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },
-        tags: [{
-            type: String,
-        }],
-        imageUrls: [{
-            type: String,
-        }],
         likes: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -30,14 +19,10 @@ const postSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
         }],
-        retweets: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
     },
     { timestamps: true }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
-export default Post;
+export default Comment;

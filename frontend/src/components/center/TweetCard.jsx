@@ -15,13 +15,13 @@ const TweetCard = (props) => {
   const { tweet } = props;
   return (
     <>
-      <Link to={`/post`} className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700 hover:bg-zinc-900 cursor-pointer">
+      <Link to={`/post/io`} className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700 hover:bg-zinc-900 cursor-pointer">
         <img src="https://avatar.iran.liara.run/public/boy?username=cocomelon" alt="profile" className="w-12 h-12 rounded-full" />
         <div className="flex items-center flex-col justify-center w-full">
           <div className="w-full flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="flex flex-row items-center">
-                <h1 className="text-sm font-semibold text-white flex items-center gap-1">Cocomelon <img src={verified} className='w-4 h-4' /></h1>
+                <Link to="/profile" className="hover:underline cursor-pointer text-sm font-semibold text-white flex items-center gap-1">Cocomelon <img src={verified} className='w-4 h-4' /></Link>
                 <h2 className="text-xs text-gray-500 px-2">@cocomelon |</h2>
                 <h2 className="text-xs text-gray-500">Jun 9</h2>
               </div>

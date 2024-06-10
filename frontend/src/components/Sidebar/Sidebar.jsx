@@ -20,14 +20,14 @@ const Sidebar = () => {
                         <img src='https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-black-icon.png' alt='logo' className='w-8 h-8 invert' />
                     </div>
                     <div className="flex flex-col items-start justify-center py-2">
-                        <SidebarMenuItem icon={GoHomeFill} title='Home' isActive="true" />
-                        <SidebarMenuItem icon={IoSearchSharp} title='Explore' isActive="true" />
-                        <SidebarMenuItem icon={HiOutlineBell} title='Notifications' isActive="true" />
-                        <SidebarMenuItem icon={LuMail} title='Messages' isActive="true" />
-                        <SidebarMenuItem icon={BsSlashSquare} title='Grok' isActive="true" />
-                        <SidebarMenuItem icon={MdGroup} title='Communities' isActive="true" />
-                        <SidebarMenuItem icon={IoPersonOutline} title='Profile' isActive="true" />
-                        <SidebarMenuItem icon={PiDotsThreeCircle} title='More' isActive="true" />
+                        <SidebarMenuItem icon={GoHomeFill} title='Home' isActive="true" link=""/>
+                        <SidebarMenuItem icon={IoSearchSharp} title='Explore' isActive="true" link="explore" />
+                        <SidebarMenuItem icon={HiOutlineBell} title='Notifications' isActive="true" link="notifications" />
+                        <SidebarMenuItem icon={LuMail} title='Messages' isActive="true" link="messages"/>
+                        <SidebarMenuItem icon={BsSlashSquare} title='Grok' isActive="true" link="grok" />
+                        <SidebarMenuItem icon={MdGroup} title='Communities' isActive="true" link="commu"/>
+                        <SidebarMenuItem icon={IoPersonOutline} title='Profile' isActive="true" link="profile"/>
+                        <SidebarMenuItem icon={PiDotsThreeCircle} title='More' isActive="true" link="more"/>
                     </div>
                     <button className="bg-[#1d9bf0] hover:bg-[#4b8ebe] font-semibold flex items-center w-ful rounded-full px-3 cursor-pointer p-3 justify-center">
                         Post
