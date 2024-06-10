@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import connectDB from './db/connect.js';
 import authRoutes from './routes/authRoutes.js';
+import postRoutes from './routes/postRoutes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 // import { app, server } from "./socket/socket.js";
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use('/api/posts', postRoutes);
 
 const httpserver = app.listen(PORT, () => {
     connectDB();

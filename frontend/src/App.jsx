@@ -26,7 +26,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="/:username/post/:tweetid" element={<PostPage />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>

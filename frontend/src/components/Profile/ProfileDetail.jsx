@@ -13,8 +13,8 @@ const ProfileDetail = () => {
     return (
         <>
             <div className="w-full flex items-center flex-col">
-                <div className="flex items-center flex-col image">
-                    <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-48 object-contain" />
+                <div className="w-full flex items-center flex-col">
+                    <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-co" />
                     <div className="flex items-end w-full justify-between px-6 -mt-20">
                         <img src="https://avatar.iran.liara.run/public/boy?username=sara" alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
                         <div className="flex items-center gap-3 py-6">

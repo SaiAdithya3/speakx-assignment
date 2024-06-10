@@ -5,6 +5,7 @@ import { GoImage } from "react-icons/go";
 import { LuListTodo } from "react-icons/lu";
 import { MdLocationPin } from "react-icons/md";
 import { useAuth } from '../../context/AuthContext';
+import ImageKit from 'imagekit';
 
 const CreatePost = ({ mode }) => {
     const [content, setContent] = useState('');
@@ -13,6 +14,13 @@ const CreatePost = ({ mode }) => {
     const handleChange = (e) => {
         setContent(e.target.value);
     };
+    const imagekit = new ImageKit({
+        publicKey: "public_ffNQ43/5mSLdUUnli2yQpX2nlxU=",
+        privateKey: "private_fnAbFnaYL6M4mb1q0gVH0KsyGG4=",
+        urlEndpoint: "https://ik.imagekit.io/vsn/tweetx",
+        transformationPosition: "path",
+        authenticationEndpoint: "http://localhost:5000/imagekit",
+    });
 
     const isContentEmpty = content.trim().length === 0;
 
@@ -44,7 +52,7 @@ const CreatePost = ({ mode }) => {
                             <MdLocationPin />
                         </button>
                     </div>
-                    <button 
+                    <button
                         className={`font-semibold text-sm text-white rounded-full px-4 py-2 focus:outline-none ${isContentEmpty ? 'bg-[#1d9bf0]/50 cursor-not-allowed' : 'bg-[#1d9bf0] hover:bg-blue-600'}`}
                         disabled={isContentEmpty}
                     >
