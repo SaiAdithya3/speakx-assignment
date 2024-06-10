@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowLeft } from "react-icons/fa6";
 import PostDetailCard from '../components/PostDetail/PostDetailCard';
 import { useNavigate } from 'react-router-dom';
 import verified from '../assets/verified.png';
 import ProfileDetail from '../components/Profile/ProfileDetail';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const { username } = useParams();
+  const [profile, setProfile] = useState(null);
+  const slicedUsername = username.slice(1);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/users/get/${slicedUsername}`);
+        setProfile(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchProfile();
+  }, [slicedUsername]);
+
   return (
     <>
       <div className="flex flex-col items-start w-full justify-between">
@@ -15,19 +34,24 @@ const ProfilePage = () => {
             <div className={`w-full flex gap-7 py-2 px-6 items-center cursor-pointer `}>
               <FaArrowLeft onClick={() => navigate('/')} />
               <div className="flex flex-col items-start">
-                <h1 className='text-md font-semibold flex items-center gap-1'>Elon Musk <img src={verified} className='w-4 h-4' /></h1>
-                <h1 className='text-xs text-zinc-600'>500 posts</h1>
+                <h1 className='text-md font-semibold flex items-center gap-1'>
+                  {slicedUsername} 
+                  <img src={verified} className='w-4 h-4' alt="verified" />
+                </h1>
+                <h1 className='text-xs text-zinc-600'>{profile?.posts?.length}</h1>
               </div>
             </div>
           </div>
         </div>
 
-
-        {/* <PostDetailCard /> */}
-        <ProfileDetail />
+        {profile ? (
+          <ProfileDetail profile={profile} />
+        ) : (
+          <p>Loading profile...</p>
+        )}
       </div>
     </>
   )
 }
 
-export default ProfilePage
+export default ProfilePage;

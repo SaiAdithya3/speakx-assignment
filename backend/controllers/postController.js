@@ -76,8 +76,9 @@ export const getPostById = async (req, res) => {
 // getPostsByUser function
 export const getPostsByUser = async (req, res) => {
     try {
-        const { userId } = req.body;
-        const userPosts = await Post.find({ author: userId }).populate('author', 'name email ');
+        // const { userId } = req.body;
+        const userId = req.params.id;
+        const userPosts = await Post.find({ author: userId }).populate('author', 'name email profilePic username');
         res.status(200).json(userPosts);
     } catch (error) {
         console.error(error);

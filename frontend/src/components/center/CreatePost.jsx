@@ -10,17 +10,17 @@ import axios from 'axios';
 
 const CreatePost = ({ mode, onPostCreated }) => {
     const [content, setContent] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrls, setImageUrls] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
     const { user } = useAuth();
-    console.log(user)
+
     const handleChange = (e) => {
         setContent(e.target.value);
     };
 
     const handleImageUpload = async (e) => {
-        const file = e.target.files[0];
-        if (file) {
+        const files = e.target.files;
+        if (files && files.length > 0) {
             setIsUploading(true);
             try {
                 const imagekit = new ImageKit({
@@ -29,16 +29,16 @@ const CreatePost = ({ mode, onPostCreated }) => {
                     urlEndpoint: "https://ik.imagekit.io/vsn/tweetx",
                 });
 
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('fileName', file.name);
-
-                const response = await imagekit.upload({
-                    file,
-                    fileName: file.name,
+                const uploadPromises = Array.from(files).map(file => {
+                    return imagekit.upload({
+                        file,
+                        fileName: file.name,
+                    });
                 });
-                console.log("Image uploaded successfully:", response.url);
-                setImageUrl(response.url);
+
+                const responses = await Promise.all(uploadPromises);
+                const urls = responses.map(response => response.url);
+                setImageUrls(prevUrls => [...prevUrls, ...urls]);
             } catch (error) {
                 console.error("Image upload failed:", error);
             } finally {
@@ -53,16 +53,18 @@ const CreatePost = ({ mode, onPostCreated }) => {
         const postData = {
             content,
             userId: user._id,
-            imageUrls: imageUrl ? [imageUrl] : [],
-            tags: [], // Add tag functionality if needed
+            imageUrls,
+            tags: [],
         };
 
         try {
             const response = await axios.post('http://localhost:5000/api/posts/create', postData);
             if (response.status === 201) {
                 setContent('');
-                setImageUrl('');
-                // onPostCreated(response.data.post); 
+                setImageUrls([]);
+                if (onPostCreated) {
+                    onPostCreated(response.data.post);
+                }
             }
         } catch (error) {
             console.error("Failed to create post:", error);
@@ -81,16 +83,18 @@ const CreatePost = ({ mode, onPostCreated }) => {
                     value={content}
                     onChange={handleChange}
                 ></textarea>
-                {imageUrl && (
-                    <div className="mt-2">
-                        <img src={imageUrl} alt="Uploaded" className="max-h-40 rounded" />
+                {imageUrls.length > 0 && (
+                    <div className="mt-2 flex flex-wrap">
+                        {imageUrls.map((url, index) => (
+                            <img key={index} src={url} alt={`Uploaded ${index}`} className="max-h-40 rounded m-1" />
+                        ))}
                     </div>
                 )}
                 <div className="flex justify-between items-center pt-2 mt-2">
                     <div className="flex text-xl space-x-4 text-[#1d9bf0]">
                         <label className="cursor-pointer">
                             <GoImage />
-                            <input type="file" className="hidden" onChange={handleImageUpload} disabled={isUploading} />
+                            <input type="file" className="hidden" onChange={handleImageUpload} multiple disabled={isUploading} />
                         </label>
                         <button className="focus:outline-none">
                             <MdOutlineEmojiEmotions />

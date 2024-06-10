@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 const TweetCard = (props) => {
   const { tweet } = props;
   console.log(tweet)
-
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -27,7 +26,7 @@ const TweetCard = (props) => {
           <div className="w-full flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="flex flex-row items-center">
-                <Link to="/profile" className="hover:underline cursor-pointer text-sm font-semibold text-white flex items-center gap-1">{tweet.author.username} <img src={verified} className='w-4 h-4' /></Link>
+                <Link to={`/profile/@${tweet.author.username}`} className="hover:underline cursor-pointer text-sm font-semibold text-white flex items-center gap-1">{tweet.author.username} <img src={verified} className='w-4 h-4' /></Link>
                 <h2 className="text-xs text-gray-500 px-2">@{tweet.author.username} |</h2>
                 <h2 className="text-xs text-gray-500">{formatTimestamp(tweet.createdAt)}</h2> {/* Display formatted timestamp */}
               </div>
@@ -40,7 +39,36 @@ const TweetCard = (props) => {
             <p className="text-white text-sm">
               {tweet.content}
             </p>
-            <img src={tweet.imageUrls[0]} alt="tweet" className="w-[80%] h-full rounded-xl" />
+            {tweet.imageUrls.length === 4 && (
+              <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                <img src={tweet.imageUrls[1]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+              </div>
+            )}
+            {tweet.imageUrls.length === 3 && (
+              <div className="w-full flex items-center justify-between gap-2">
+                <img src={tweet.imageUrls[0]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                <div className="w-[48%] gap-2">
+                  <img src={tweet.imageUrls[1]} alt="tweet" className="w-[100%] h-full rounded-xl" />
+                  <img src={tweet.imageUrls[2]} alt="tweet" className="w-[100%] h-full rounded-xl" />
+                </div>
+              </div>
+            )}
+            {tweet.imageUrls.length === 2 && (
+              <div className="w-full flex items-center justify-between gap-2">
+                <img src={tweet.imageUrls[0]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                <img src={tweet.imageUrls[1]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+              </div>
+            )}
+            {tweet.imageUrls.length === 1 && (
+              <div className="w-full flex items-center justify-between gap-2">
+                <img src={tweet.imageUrls[0]} alt="tweet" className="w-[80%] h-full rounded-xl" />
+                {/* <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" /> */}
+              </div>
+            )}
+            {/* <img src={tweet.imageUrls[0]} alt="tweet" className="w-[80%] h-full rounded-xl" /> */}
           </div>
 
           <div className="flex items-center w-full justify-between py-3 text-gray-500">

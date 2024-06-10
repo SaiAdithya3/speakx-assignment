@@ -4,6 +4,7 @@ dotenv.config();
 import connectDB from './db/connect.js';
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 // import { app, server } from "./socket/socket.js";
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
 
 const httpserver = app.listen(PORT, () => {
     connectDB();

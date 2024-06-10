@@ -35,11 +35,40 @@ const PostDetailCard = (props) => {
                         <PiDotsThreeOutlineFill className='text-zinc-200' />
                     </div>
 
-                    {/* tweet goes here */}
+                    {/* post goes here */}
                     <div className="w-full py-4">
                         <p className="text-white text-sm">
                             {post.content}
                         </p>
+                        {post.imageUrls.length === 4 && (
+                            <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                                <img src={post.imageUrls[1]} alt="post" className="w-[48%] h-full rounded-xl" />
+                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
+                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
+                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
+                            </div>
+                        )}
+                        {post.imageUrls.length === 3 && (
+                            <div className="w-full flex items-center justify-between gap-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] h-full rounded-xl" />
+                                <div className="w-[48%] gap-2">
+                                    <img src={post.imageUrls[1]} alt="post" className="w-[100%] h-full rounded-xl" />
+                                    <img src={post.imageUrls[2]} alt="post" className="w-[100%] h-full rounded-xl" />
+                                </div>
+                            </div>
+                        )}
+                        {post.imageUrls.length === 2 && (
+                            <div className="w-full flex items-center justify-between gap-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] h-full rounded-xl" />
+                                <img src={post.imageUrls[1]} alt="post" className="w-[48%] h-full rounded-xl" />
+                            </div>
+                        )}
+                        {post.imageUrls.length === 1 && (
+                            <div className="w-full flex items-center justify-between gap-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-[80%] h-full rounded-xl" />
+                                {/* <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" /> */}
+                            </div>
+                        )}
                     </div>
 
                     <h2 className="text-xs w-full text-start pb-4 py-2 text-gray-500 flex items-center gap-1">

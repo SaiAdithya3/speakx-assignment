@@ -3,12 +3,18 @@ import { PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { CiCalendar } from "react-icons/ci";
 import ProfilePosts from './ProfilePosts';
 
-const ProfileDetail = () => {
+const ProfileDetail = (props) => {
+    const { profile } = props;
     const [activeSection, setActiveSection] = useState('Posts');
 
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
+    const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString(undefined, options);
+      };
 
     return (
         <>
@@ -16,22 +22,22 @@ const ProfileDetail = () => {
                 <div className="w-full flex items-center flex-col">
                     <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-co" />
                     <div className="flex items-end w-full justify-between px-6 -mt-20">
-                        <img src="https://avatar.iran.liara.run/public/boy?username=sara" alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
+                        <img src={profile.profilePic} alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
                         <div className="flex items-center gap-3 py-6">
                             <PiDotsThreeOutlineFill className='text-white border rounded-full text-3xl p-1.5' />
                             <button className="bg-white hover:bg-zinc-200 text-black font-semibold px-6 py-2 text-xs rounded-full">Follow</button>
                         </div>
                     </div>
                     <div className="flex flex-col w-full items-start px-6 py-3">
-                        <h1 className="text-xl font-semibold">Elon Musk</h1>
-                        <h1 className="text-xs text-zinc-600">@ CEO of Tesla</h1>
-                        <h1 className="text-xs py-3 text-zinc-200 flex items-center gap-1"> <CiCalendar />Joined October 2023</h1>
+                        <h1 className="text-xl font-semibold">{profile.username}</h1>
+                        <h1 className="text-xs text-zinc-600">@{profile.username}</h1>
+                        <h1 className="text-xs py-3 text-zinc-200 flex items-center gap-1"> <CiCalendar />Joined {formatTimestamp(profile.createdAt)}</h1>
                         <h1 className="text-xs text-zinc-600 gap-5 flex">
                             <span>
-                                <span className="text-white font-semibold">2,000</span> Followers
+                                <span className="text-white font-semibold">{profile?.followers?.length}</span> Followers
                             </span>
                             <span>
-                                <span className="text-white font-semibold">200</span> Following
+                                <span className="text-white font-semibold">{profile?.following?.length}</span> Following
                             </span>
                         </h1>
                     </div>
@@ -46,7 +52,7 @@ const ProfileDetail = () => {
             </div>
             {/* Render content based on activeSection */}
             {activeSection === 'Posts' && (
-                <ProfilePosts />
+                <ProfilePosts userId={profile._id}/>
             )}
             {activeSection === 'Replies' && (
                 <div>Replies Content</div>
