@@ -7,7 +7,7 @@ import { Toaster } from 'sonner';
 const App = () => {
   return (
     <>
-      <div className="w-full flex m-0">
+      <div className="w-full flex px-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
