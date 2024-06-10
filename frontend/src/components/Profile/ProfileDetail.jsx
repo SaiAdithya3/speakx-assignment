@@ -1,31 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { CiCalendar } from "react-icons/ci";
 import ProfilePosts from './ProfilePosts';
+import { toast } from 'sonner';
 
 const ProfileDetail = (props) => {
-    const { profile } = props;
+    const { profile, isCurrentUser } = props;
     const [activeSection, setActiveSection] = useState('Posts');
+    const [isFollowing, setIsFollowing] = useState(false);
+
+    const userId = JSON.parse(localStorage.getItem('user'))?._id;
+
+    useEffect(() => {
+        setIsFollowing(profile.followers.includes(userId));
+    }, [userId, profile]);
 
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
+
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return date.toLocaleDateString(undefined, options);
-      };
+    };
+
+    const handleFollowClick = async () => {
+        try {
+            const response = isFollowing 
+                ? await axios.post('http://localhost:5000/api/users/unfollow', { userId: userId, followId: profile._id }) 
+                : await axios.post('http://localhost:5000/api/users/follow', { userId: userId, followId: profile._id });
+
+            setIsFollowing(!isFollowing); 
+            toast.success(response.data.message);
+        } catch (error) {
+            console.error("Error following/unfollowing user", error);
+            toast.error("Error following/unfollowing user");
+        }
+    };
+
+    const handleEditProfileClick = () => {
+        toast.info("Edit profile functionality is not yet implemented");
+    };
 
     return (
         <>
             <div className="w-full flex items-center flex-col">
                 <div className="w-full flex items-center flex-col">
-                    <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-co" />
+                    <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-cover" />
                     <div className="flex items-end w-full justify-between px-6 -mt-20">
                         <img src={profile.profilePic} alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
                         <div className="flex items-center gap-3 py-6">
                             <PiDotsThreeOutlineFill className='text-white border rounded-full text-3xl p-1.5' />
-                            <button className="bg-white hover:bg-zinc-200 text-black font-semibold px-6 py-2 text-xs rounded-full">Follow</button>
+                            {isCurrentUser ? (
+                                <button onClick={handleEditProfileClick} className="bg-white hover:bg-zinc-200 text-black font-semibold px-6 py-2 text-xs rounded-full">Edit Profile</button>
+                            ) : (
+                                <button onClick={handleFollowClick} className={`bg-white hover:bg-zinc-200 text-black font-semibold px-6 py-2 text-xs rounded-full ${isFollowing ? 'bg-gray-400' : ''}`}>
+                                    {isFollowing ? 'Unfollow' : 'Follow'}
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-col w-full items-start px-6 py-3">
@@ -52,7 +86,7 @@ const ProfileDetail = (props) => {
             </div>
             {/* Render content based on activeSection */}
             {activeSection === 'Posts' && (
-                <ProfilePosts userId={profile._id}/>
+                <ProfilePosts userId={profile._id} />
             )}
             {activeSection === 'Replies' && (
                 <div>Replies Content</div>
@@ -64,7 +98,7 @@ const ProfileDetail = (props) => {
                 <div>Likes Content</div>
             )}
         </>
-    )
-}
+    );
+};
 
 export default ProfileDetail;

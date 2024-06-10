@@ -11,6 +11,9 @@ const commentSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        imageUrls: [{
+            type: String,
+        }],
         likes: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'

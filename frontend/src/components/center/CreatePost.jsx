@@ -10,7 +10,7 @@ import axios from 'axios';
 
 // Import React and other necessary modules
 
-const CreatePost = ({ mode, onPostCreated }) => {
+const CreatePost = ({ mode, onPostCreated, postId }) => {
     const [content, setContent] = useState('');
     const [imageUrls, setImageUrls] = useState([]);
     const [tags, setTags] = useState([]);
@@ -55,6 +55,32 @@ const CreatePost = ({ mode, onPostCreated }) => {
             }
         }
     };
+    // console.log('postId:', postId);
+
+    const handleComment = async () => {
+        if (content.trim() === '') return;
+
+        const postData = {
+            content,
+            userId: user._id,
+            imageUrls,
+            postId: postId,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/posts/addcoment', postData);
+            if (response.status === 201) {
+                setContent('');
+                setImageUrls([]);
+                if (onPostCreated) {
+                    onPostCreated(response.data.post);
+                }
+            }
+        } catch (error) {
+            console.error("Failed to create post:", error);
+        }
+    };
+
 
     const handleSubmit = async () => {
         if (content.trim() === '') return;
@@ -102,7 +128,7 @@ const CreatePost = ({ mode, onPostCreated }) => {
     };
 
     return (
-        <div className={`w-full flex border-zinc-500/50 ${mode === 'comment' ? "p-2 py-4" : "border-b p-4"}`}>
+        <div className={`w-full flex border-zinc-500/50 ${mode === 'comment' ? "p-2 py-4 border-b" : "border-b p-4"}`}>
             <img src={user && user.profilePic} alt="profile" className='w-12 h-12 mr-4 rounded-full' />
             <div className="flex flex-col w-full">
                 <textarea
@@ -151,7 +177,8 @@ const CreatePost = ({ mode, onPostCreated }) => {
                     <button
                         className={`font-semibold text-sm text-white rounded-full px-4 py-2 focus:outline-none ${isContentEmpty ? 'bg-[#1d9bf0]/50 cursor-not-allowed' : 'bg-[#1d9bf0] hover:bg-blue-600'}`}
                         disabled={isContentEmpty || isUploading}
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
+                        onClick={mode === 'comment' ? handleComment : handleSubmit}
                     >
                         {mode === 'comment' ? 'Reply' : 'Post'}
                     </button>

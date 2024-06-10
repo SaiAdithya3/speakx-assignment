@@ -1,12 +1,12 @@
 import Post from '../models/post.js';
 import User from '../models/user.js';
+import Comment from '../models/comment.js';
 
 export const createPost = async (req, res) => {
     try {
         const { content, description, tags, imageUrls } = req.body;
         const userId = req.body.userId; 
 
-        // Create a new post
         const post = await Post.create({
             content,
             description,
@@ -25,15 +25,15 @@ export const createPost = async (req, res) => {
                     as: 'user',
                 },
             },
-            { $unwind: '$user' }, // Unwind to access the user document
+            { $unwind: '$user' },
             {
                 $addFields: {
                     createdPosts: {
-                        $concatArrays: ['$user.createdPosts', [post._id]], // Add the new post to the user's createdPosts array
+                        $concatArrays: ['$user.createdPosts', [post._id]], 
                     },
                 },
             },
-            { $project: { user: 0 } }, // Exclude the user field from the result
+            { $project: { user: 0 } }, 
         ]);
 
         res.status(201).json({ message: 'Post created successfully', post });
@@ -55,12 +55,21 @@ export const getAllPosts = async (req, res) => {
 
 export const getPostById = async (req, res) => {
     try {
-        // const { postId } = req.body;
         const postId = req.params.id; 
-        // console.log('Received postId:', postId); 
 
-        const post = await Post.findById(postId).populate('author', 'name email profilePic username');
-        // console.log('Fetched post:', post); 
+        const post = await Post.findById(postId)
+            .populate({
+                path: 'author',
+                select: 'name email profilePic username'
+            })
+            .populate({
+                path: 'comments',
+                select: 'content author imageUrls comments likes createdAt', 
+                populate: {
+                    path: 'author',
+                    select: 'username profilePic'
+                }
+            });
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
@@ -72,6 +81,7 @@ export const getPostById = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 
 
 export const getPostsByUser = async (req, res) => {
@@ -91,13 +101,11 @@ export const updatePostByUser = async (req, res) => {
     try {
         const { postId, userId, newData } = req.body;
 
-        // Check if the user is the author of the post
         const post = await Post.findById(postId);
         if (!post || post.author.toString() !== userId) {
             return res.status(403).json({ message: 'Unauthorized access' });
         }
 
-        // Update the post with the new data
         const updatedPost = await Post.findByIdAndUpdate(postId, newData, { new: true });
         if (!updatedPost) {
             return res.status(404).json({ message: 'Post not found' });
@@ -116,27 +124,22 @@ export const likePost = async (req, res) => {
         console.log('Received postId:', postId);
         console.log('Received userId:', userId);
 
-        // Find the post
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        // Initialize the likes array if it's undefined
         if (!post.likes) {
             post.likes = [];
         }
 
-        // Check if the post is already liked by the user
         if (post.likes.includes(userId)) {
             return res.status(400).json({ message: 'Post already liked by the user' });
         }
 
-        // Push the userId into the likes array and increment likesCount
         post.likes.push(userId);
         post.likesCount += 1;
 
-        // Save the updated post
         await post.save();
 
         // Find the user
@@ -150,6 +153,57 @@ export const likePost = async (req, res) => {
         // await user.save();
 
         res.status(200).json({ message: 'Post liked successfully', post });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
+export const createCommentForPost = async (req, res) => {
+    try {
+        const { postId, content, userId, imageUrls } = req.body;
+      
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        const comment = await Comment.create({
+            content,
+            author: userId,
+            imageUrls,
+        });
+
+        post.comments.push(comment._id);
+        await post.save();
+
+        res.status(201).json({ message: 'Comment created successfully', comment });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const createNestedComment = async (req, res) => {
+    try {
+        const { commentId, content, userId } = req.body;
+
+        
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        const nestedComment = await Comment.create({
+            content,
+            author: userId,
+        });
+
+        comment.comments.push(nestedComment._id);
+        await comment.save();
+
+        res.status(201).json({ message: 'Nested comment created successfully', nestedComment });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

@@ -11,6 +11,8 @@ import CreatePost from '../center/CreatePost';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
+import TweetCard from '../center/TweetCard';
+import CommentCard from './CommentCard';
 
 const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -47,7 +49,7 @@ const PostDetailCard = (props) => {
 
     return (
         <>
-            <div className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700">
+            <div className="w-full flex items-start px-6 gap-4 py-4 border-zinc-700">
                 <div className="flex items-center flex-col justify-center w-full">
                     <div className="w-full flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -124,7 +126,11 @@ const PostDetailCard = (props) => {
                         </div>
                     </div>
                     {/* comments go here */}
-                    <CreatePost mode="comment" />
+                    <CreatePost mode="comment" postId={post._id}/>
+
+                    {post.comments ? post.comments.map((comment, index) => (
+                        <CommentCard key={index} tweet={comment} />
+                    )) : null}
                 </div>
             </div>
         </>

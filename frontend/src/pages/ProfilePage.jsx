@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft } from "react-icons/fa6";
-import PostDetailCard from '../components/PostDetail/PostDetailCard';
-import { useNavigate } from 'react-router-dom';
-import verified from '../assets/verified.png';
 import ProfileDetail from '../components/Profile/ProfileDetail';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import verified from '../assets/verified.png';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -35,17 +33,17 @@ const ProfilePage = () => {
               <FaArrowLeft onClick={() => navigate('/')} />
               <div className="flex flex-col items-start">
                 <h1 className='text-md font-semibold flex items-center gap-1'>
-                  {slicedUsername} 
+                  {slicedUsername}
                   <img src={verified} className='w-4 h-4' alt="verified" />
                 </h1>
-                <h1 className='text-xs text-zinc-600'>{profile?.posts?.length}</h1>
+                <h1 className='text-xs text-zinc-600'>12.7k Posts</h1>
               </div>
             </div>
           </div>
         </div>
 
         {profile ? (
-          <ProfileDetail profile={profile} />
+          <ProfileDetail profile={profile} isCurrentUser={profile._id === JSON.parse(localStorage.getItem('user'))?._id} />
         ) : (
           <p>Loading profile...</p>
         )}

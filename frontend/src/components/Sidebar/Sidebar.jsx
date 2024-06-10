@@ -31,6 +31,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
 
 const Sidebar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const username = JSON.parse(localStorage.getItem('user'))?.username;
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -60,7 +61,7 @@ const Sidebar = () => {
                         <SidebarMenuItem icon={LuMail} title='Messages' isActive="true" link="messages" />
                         <SidebarMenuItem icon={BsSlashSquare} title='Grok' isActive="true" link="grok" />
                         <SidebarMenuItem icon={MdGroup} title='Communities' isActive="true" link="commu" />
-                        <SidebarMenuItem icon={IoPersonOutline} title='Profile' isActive="true" link="profile" />
+                        <SidebarMenuItem icon={IoPersonOutline} title='Profile' isActive="true" link={`profile/@${username}`} />
                         <SidebarMenuItem icon={PiDotsThreeCircle} title='More' isActive="true" link="more" />
                     </div>
                     <button
