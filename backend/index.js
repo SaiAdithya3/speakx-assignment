@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://192.168.56.1:5173/', 'http://192.168.1.4:5173/'],
+    origin: ['http://localhost:5173', 'https://tweetx-six.vercel.app/', 'https://speakx-assignment-pj4w.onrender.com'],
     credentials: true,
 }));
 
