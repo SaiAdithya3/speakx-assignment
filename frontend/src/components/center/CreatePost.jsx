@@ -8,14 +8,23 @@ import { useAuth } from '../../context/AuthContext';
 import ImageKit from 'imagekit';
 import axios from 'axios';
 
+// Import React and other necessary modules
+
 const CreatePost = ({ mode, onPostCreated }) => {
     const [content, setContent] = useState('');
     const [imageUrls, setImageUrls] = useState([]);
+    const [tags, setTags] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
     const { user } = useAuth();
 
     const handleChange = (e) => {
-        setContent(e.target.value);
+        const newContent = e.target.value;
+        setContent(newContent);
+
+        // Extract tags from content
+        const extractedTags = newContent.match(/#[^\s#]+/g) || [];
+        setTags(extractedTags);
     };
 
     const handleImageUpload = async (e) => {
@@ -54,7 +63,7 @@ const CreatePost = ({ mode, onPostCreated }) => {
             content,
             userId: user._id,
             imageUrls,
-            tags: [],
+            tags: tags,
         };
 
         try {
@@ -72,6 +81,25 @@ const CreatePost = ({ mode, onPostCreated }) => {
     };
 
     const isContentEmpty = content.trim().length === 0;
+
+    // Calculate progress percentage for character limit
+    const maxChars = 250;
+    const currentChars = content.length;
+    const progressPercentage = (currentChars / maxChars) * 100;
+
+    // Change color based on progress percentage
+    let progressColor = progressPercentage >= 100 ? "red" : "#1d9bf0";
+
+    // Render tags with blue color
+    const renderContentWithTags = () => {
+        return content.split(/(#\S+)/).map((part, index) => {
+            if (tags.includes(part)) {
+                return <span key={index} style={{ color: 'blue' }}>{part}</span>;
+            } else {
+                return <span key={index}>{part}</span>;
+            }
+        });
+    };
 
     return (
         <div className={`w-full flex border-zinc-500/50 ${mode === 'comment' ? "p-2 py-4" : "border-b p-4"}`}>
@@ -109,6 +137,17 @@ const CreatePost = ({ mode, onPostCreated }) => {
                             <MdLocationPin />
                         </button>
                     </div>
+                    <div className="relative w-8 h-8">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div
+                                className="w-full h-full rounded-full bg-[#ccc] border-2 border-transparent"
+                                style={{ background: `conic-gradient(${progressColor} ${progressPercentage}%, transparent ${progressPercentage}%)` }}
+                            ></div>
+                        </div>
+                        {/* <div className="absolute inset-0 flex items-center justify-center">
+                            <p className="text-xs text-white">{currentChars}/{maxChars}</p>
+                        </div> */}
+                    </div>
                     <button
                         className={`font-semibold text-sm text-white rounded-full px-4 py-2 focus:outline-none ${isContentEmpty ? 'bg-[#1d9bf0]/50 cursor-not-allowed' : 'bg-[#1d9bf0] hover:bg-blue-600'}`}
                         disabled={isContentEmpty || isUploading}
@@ -116,6 +155,10 @@ const CreatePost = ({ mode, onPostCreated }) => {
                     >
                         {mode === 'comment' ? 'Reply' : 'Post'}
                     </button>
+                </div>
+                {/* Render content with highlighted tags */}
+                <div className="mt-2">
+                    {/* {renderContentWithTags()} */}
                 </div>
             </div>
         </div>

@@ -28,7 +28,7 @@ const PostDetailCard = (props) => {
                         <div className="flex items-center gap-3">
                             <img src={post.author.profilePic || "https://avatar.iran.liara.run/public/boy?username=cocomelon"} alt="profile" className="w-10 h-10 rounded-full" />
                             <div className="flex flex-col items-start">
-                                <Link to="/profile" className="hover:underline cursor-pointer text-sm font-semibold text-white flex items-center gap-1">{post.author.username} <img src={verified} className='w-4 h-4' /></Link>
+                                <Link to={`/profile/@${post.author.username}`} className="hover:underline cursor-pointer text-sm font-semibold text-white flex items-center gap-1">{post.author.username} <img src={verified} className='w-4 h-4' /></Link>
                                 <h2 className="text-xs text-gray-500">@{post.author.username}</h2>
                             </div>
                         </div>

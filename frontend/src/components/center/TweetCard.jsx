@@ -18,6 +18,15 @@ const TweetCard = (props) => {
     return date.toLocaleDateString(undefined, options);
   };
 
+  const renderContentWithTags = () => {
+    return tweet.content.split(/(#\S+)/).map((part, index) => {
+      if (tweet.tags.includes(part)) {
+        return <span key={index} style={{ color: '#1d9bf0', paddingLeft: '2px' }}>{part}</span>;
+      } else {
+        return <span key={index}>{part}</span>;
+      }
+    });
+  };
   return (
     <>
       <Link to={`/${tweet.author.username}/post/${tweet._id}`} className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700 hover:bg-zinc-900 cursor-pointer">
@@ -37,7 +46,8 @@ const TweetCard = (props) => {
           {/* tweet goes here */}
           <div className="w-full py-1.5 flex flex-col items-start gap-3">
             <p className="text-white text-sm">
-              {tweet.content}
+              {/* {tweet.content} */}
+              {renderContentWithTags()}
             </p>
             {tweet.imageUrls.length === 4 && (
               <div className="w-full flex flex-wrap items-center justify-between gap-2">
