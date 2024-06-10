@@ -1,6 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import AuthModal from '../components/Login/AuthModal';
+import Signup from '../components/Login/Signup';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [loginData, setLoginData] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
+      console.log(response.data);
+      setUser(response.data); 
+      toast.success('Logged in successfully!');
+      navigate('/');
+      setShowLoginModal(false);
+    } catch (error) {
+      console.error(error);
+      toast.error('Login failed');
+    }
+  };
+
   return (
     <>
       <div className="w-full bg-black flex gap-5 h-screen items-center justify-center">
@@ -8,8 +40,8 @@ const Login = () => {
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/X_logo.jpg/1200px-X_logo.jpg" alt="logo" className='w-[90%]' />
         </div>
         <div className="w-1/2 flex items-start justify-center flex-col gap-3">
-          <h1 className='text-6xl font-bold pb-12'>Happening now</h1>
-          <h1 className='text-3xl font-bold pb-4'>
+          <h1 className='text-6xl font-bold pb-12 text-white'>Happening now</h1>
+          <h1 className='text-3xl font-bold pb-4 text-white'>
             Join X today.
           </h1>
           <button className='bg-white text-black p-2 rounded-full w-[45%] flex items-center justify-center gap-2'>
@@ -23,14 +55,53 @@ const Login = () => {
             <p className='text-white text-sm'>or</p>
             <hr className='w-1/2' />
           </div>
-          <button className='bg-blue-400 text-white p-2 rounded-full w-[45%]'>Create Account</button>
-          <p className='text-xs w-[45%]'>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
+          <button
+            className='bg-blue-400 text-white p-2 rounded-full w-[45%]'
+            onClick={() => setShowSignupModal(true)}
+          >
+            Create Account
+          </button>
+          <p className='text-xs w-[45%] text-white'>By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.</p>
           <p className='text-white font-semibold pt-10 '>Already have an account?</p>
-          <button className='bg-black text-blue-400 border border-white p-2 rounded-full w-[45%]'>Sign in</button>
+          <button
+            className='bg-black text-blue-400 border border-white p-2 rounded-full w-[45%]'
+            onClick={() => setShowLoginModal(true)}
+          >
+            Sign in
+          </button>
         </div>
       </div>
-    </>
-  )
-}
 
-export default Login
+      <AuthModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)}>
+        <h2 className="text-2xl font-bold mb-4">Log in</h2>
+        <form onSubmit={handleLoginSubmit}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={loginData.username}
+            onChange={handleLoginChange}
+            className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={loginData.password}
+            onChange={handleLoginChange}
+            className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          />
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+            Log in
+          </button>
+        </form>
+      </AuthModal>
+
+      <AuthModal isOpen={showSignupModal} onClose={() => setShowSignupModal(false)}>
+        <Signup />
+      </AuthModal>
+    </>
+  );
+};
+
+export default Login;
