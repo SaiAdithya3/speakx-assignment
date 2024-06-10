@@ -24,6 +24,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
       console.log(response.data);
       setUser(response.data); 
+      localStorage.setItem('user', JSON.stringify(response.data));
       toast.success('Logged in successfully!');
       navigate('/');
       setShowLoginModal(false);

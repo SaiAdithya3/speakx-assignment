@@ -3,7 +3,7 @@ import Post from '../models/post.js';
 export const createPost = async (req, res) => {
     try {
         const { content, description, tags, imageUrls } = req.body;
-        const userId = req.body.userId; // Assuming userId is provided in the request body
+        const userId = req.body.userId; 
 
         // Create a new post
         const post = await Post.create({
@@ -14,12 +14,11 @@ export const createPost = async (req, res) => {
             imageUrls,
         });
 
-        // Update the user's created posts array using aggregation pipeline
         await Post.aggregate([
-            { $match: { _id: post._id } }, // Match the newly created post
+            { $match: { _id: post._id } },
             {
                 $lookup: {
-                    from: 'users', // Assuming the users collection name is 'users'
+                    from: 'users', 
                     localField: 'author',
                     foreignField: '_id',
                     as: 'user',
@@ -51,7 +50,28 @@ export const getAllPosts = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
+
+export const getPostById = async (req, res) => {
+    try {
+        // const { postId } = req.body;
+        const postId = req.params.id; 
+        // console.log('Received postId:', postId); 
+
+        const post = await Post.findById(postId).populate('author', 'name email profilePic username');
+        // console.log('Fetched post:', post); 
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        res.status(200).json(post);
+    } catch (error) {
+        console.error('Error fetching post:', error); 
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 // getPostsByUser function
 export const getPostsByUser = async (req, res) => {
@@ -59,6 +79,30 @@ export const getPostsByUser = async (req, res) => {
         const { userId } = req.body;
         const userPosts = await Post.find({ author: userId }).populate('author', 'name email ');
         res.status(200).json(userPosts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
+export const updatePostByUser = async (req, res) => {
+    try {
+        const { postId, userId, newData } = req.body;
+
+        // Check if the user is the author of the post
+        const post = await Post.findById(postId);
+        if (!post || post.author.toString() !== userId) {
+            return res.status(403).json({ message: 'Unauthorized access' });
+        }
+
+        // Update the post with the new data
+        const updatedPost = await Post.findByIdAndUpdate(postId, newData, { new: true });
+        if (!updatedPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        res.status(200).json(updatedPost);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

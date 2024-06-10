@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 const TweetCard = (props) => {
   const { tweet } = props;
-
+  console.log(tweet)
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -36,10 +36,11 @@ const TweetCard = (props) => {
           </div>
 
           {/* tweet goes here */}
-          <div className="w-full py-1.5">
+          <div className="w-full py-1.5 flex flex-col items-start gap-3">
             <p className="text-white text-sm">
               {tweet.content}
             </p>
+            <img src={tweet.imageUrls[0]} alt="tweet" className="w-[80%] h-full rounded-xl" />
           </div>
 
           <div className="flex items-center w-full justify-between py-3 text-gray-500">

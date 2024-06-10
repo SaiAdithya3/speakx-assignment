@@ -6,7 +6,7 @@ const FollowingFeed = () => {
     <>
         <div className="w-full flex items-center flex-col">
             <h1 className='text-lg font-semibold'>Following Feed</h1>
-            <TweetCard />
+            {/* <TweetCard /> */}
         </div>
     </>
   )
