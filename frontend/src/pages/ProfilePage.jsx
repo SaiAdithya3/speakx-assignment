@@ -14,7 +14,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/get/${slicedUsername}`);
+        const response = await axios.get(`https://speakx-assignment-pj4w.onrender.comusers/get/${slicedUsername}`);
         setProfile(response.data);
         console.log(response.data);
       } catch (error) {

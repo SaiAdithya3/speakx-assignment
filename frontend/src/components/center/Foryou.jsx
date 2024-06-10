@@ -9,7 +9,7 @@ const Foryou = () => {
     // Fetch all posts
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/posts/allposts'); // Assuming your backend API endpoint is '/api/posts'
+        const response = await axios.get('https://speakx-assignment-pj4w.onrender.composts/allposts'); // Assuming your backend API endpoint is '/api/posts'
         const sortedTweets = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort tweets based on createdAt timestamp
         setTweets(sortedTweets);
       } catch (error) {

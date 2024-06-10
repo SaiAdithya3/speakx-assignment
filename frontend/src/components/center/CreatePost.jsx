@@ -68,7 +68,7 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/posts/addcoment', postData);
+            const response = await axios.post('https://speakx-assignment-pj4w.onrender.composts/addcoment', postData);
             if (response.status === 201) {
                 setContent('');
                 setImageUrls([]);
@@ -93,7 +93,7 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/posts/create', postData);
+            const response = await axios.post('https://speakx-assignment-pj4w.onrender.composts/create', postData);
             if (response.status === 201) {
                 setContent('');
                 setImageUrls([]);
