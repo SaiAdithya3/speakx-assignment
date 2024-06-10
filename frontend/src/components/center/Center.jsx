@@ -1,9 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import CreatePost from './CreatePost';
-
-// Lazy load Foryou component
 const Foryou = React.lazy(() => import('./Foryou'));
-// Lazy load FollowingFeed component
 const FollowingFeed = React.lazy(() => import('./FollowingFeed'));
 
 const Center = () => {
@@ -38,7 +35,7 @@ const Center = () => {
                 </div>
             </div>
 
-            <div className="w-full flex flex-col gap-5 items-center">
+            <div className="w-full flex flex-col items-center">
                 <CreatePost />
                 {/* Wrap the lazy loaded components with Suspense */}
                 <Suspense fallback={<div>Loading...</div>}>

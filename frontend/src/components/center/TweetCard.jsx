@@ -7,6 +7,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { SiSimpleanalytics } from "react-icons/si";
 import { GoBookmark } from "react-icons/go";
 import { FiShare } from "react-icons/fi";
+import { Link } from 'react-router-dom';
 
 
 
@@ -14,7 +15,7 @@ const TweetCard = (props) => {
   const { tweet } = props;
   return (
     <>
-      <div className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700">
+      <Link to={`/post`} className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700 hover:bg-zinc-900 cursor-pointer">
         <img src="https://avatar.iran.liara.run/public/boy?username=cocomelon" alt="profile" className="w-12 h-12 rounded-full" />
         <div className="flex items-center flex-col justify-center w-full">
           <div className="w-full flex items-center justify-between">
@@ -59,7 +60,7 @@ const TweetCard = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </>
   )
 }
