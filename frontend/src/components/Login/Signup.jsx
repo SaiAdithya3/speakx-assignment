@@ -38,7 +38,7 @@ const Signup = () => {
           placeholder="Username"
           value={signupData.username}
           onChange={handleSignupChange}
-          className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
         />
         <input
           type="email"
@@ -46,7 +46,7 @@ const Signup = () => {
           placeholder="Email"
           value={signupData.email}
           onChange={handleSignupChange}
-          className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
         />
         <input
           type="password"
@@ -54,7 +54,7 @@ const Signup = () => {
           placeholder="Password"
           value={signupData.password}
           onChange={handleSignupChange}
-          className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
         />
         <input
           type="password"
@@ -62,9 +62,9 @@ const Signup = () => {
           placeholder="Confirm Password"
           value={signupData.confirmPassword}
           onChange={handleSignupChange}
-          className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+          className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
         />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+        <button type="submit" className="w-full bg-[#1d9bf0] text-white p-2 rounded-xl">
           Sign up
         </button>
       </form>

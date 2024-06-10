@@ -27,7 +27,7 @@ export const signupUser = async (req, res) => {
             password: hashedPassword,
             fullName,
             bio,
-            profilePic: `https://avatar.iran.liara.run/public/user?username=${username}`
+            profilePic: `https://avatar.iran.liara.run/public/boy?username=${username}`
         });
 
         await newUser.save();

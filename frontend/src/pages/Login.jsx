@@ -81,7 +81,7 @@ const Login = () => {
             placeholder="Username"
             value={loginData.username}
             onChange={handleLoginChange}
-            className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+            className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
           />
           <input
             type="password"
@@ -89,9 +89,9 @@ const Login = () => {
             placeholder="Password"
             value={loginData.password}
             onChange={handleLoginChange}
-            className="w-full p-2 mb-4 border border-gray-700 rounded bg-gray-800 text-white"
+            className="w-full p-2 mb-4 border-zinc-500 rounded-lg focus:outline-none bg-zinc-800 text-white"
           />
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+          <button type="submit" className="w-full bg-[#1d9bf0] text-white p-2 rounded-lg">
             Log in
           </button>
         </form>
