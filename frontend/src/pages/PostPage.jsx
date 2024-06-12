@@ -12,7 +12,7 @@ const PostPage = () => {
   useEffect(() => {
     const fetchPosts = async (postId) => {
       try {
-        const response = await axios.get(`https://speakx-assignment-pj4w.onrender.com/api/posts/${tweetid}`);
+        const response = await axios.get(`http://localhost:5000/api/posts/${tweetid}`);
         setPost(response.data);
         console.log(response.data);
       } catch (error) {

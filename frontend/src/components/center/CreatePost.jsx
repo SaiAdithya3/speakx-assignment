@@ -7,8 +7,17 @@ import { MdLocationPin } from "react-icons/md";
 import { useAuth } from '../../context/AuthContext';
 import ImageKit from 'imagekit';
 import axios from 'axios';
+import ContentLength from './ContentLength';
 
-// Import React and other necessary modules
+const Spinner = () => {
+    return (
+        <div className="spinner">
+            <div className="spinner-circle"></div>
+        </div>
+    );
+};
+
+
 
 const CreatePost = ({ mode, onPostCreated, postId }) => {
     const [content, setContent] = useState('');
@@ -68,7 +77,7 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
         };
 
         try {
-            const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/posts/addcoment', postData);
+            const response = await axios.post('http://localhost:5000/api/posts/addcoment', postData);
             if (response.status === 201) {
                 setContent('');
                 setImageUrls([]);
@@ -93,7 +102,7 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
         };
 
         try {
-            const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/posts/create', postData);
+            const response = await axios.post('http://localhost:5000/api/posts/create', postData);
             if (response.status === 201) {
                 setContent('');
                 setImageUrls([]);
@@ -163,27 +172,19 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
                             <MdLocationPin />
                         </button>
                     </div>
-                    <div className="relative w-8 h-8">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div
-                                className="w-full h-full rounded-full bg-[#ccc] border-2 border-transparent"
-                                style={{ background: `conic-gradient(${progressColor} ${progressPercentage}%, transparent ${progressPercentage}%)` }}
-                            ></div>
-                        </div>
-                        {/* <div className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-xs text-white">{currentChars}/{maxChars}</p>
-                        </div> */}
+                    <div className="flex gap-2 items-center">
+
+                        <ContentLength progress={progressPercentage} />
+                        <button
+                            className={`font-semibold text-sm text-white rounded-full px-4 py-2 focus:outline-none ${isContentEmpty ? 'bg-[#1d9bf0]/50 cursor-not-allowed' : 'bg-[#1d9bf0] hover:bg-blue-600'}`}
+                            disabled={isContentEmpty || isUploading}
+                            // onClick={handleSubmit}
+                            onClick={mode === 'comment' ? handleComment : handleSubmit}
+                        >
+                            {mode === 'comment' ? 'Reply' : 'Post'}
+                        </button>
                     </div>
-                    <button
-                        className={`font-semibold text-sm text-white rounded-full px-4 py-2 focus:outline-none ${isContentEmpty ? 'bg-[#1d9bf0]/50 cursor-not-allowed' : 'bg-[#1d9bf0] hover:bg-blue-600'}`}
-                        disabled={isContentEmpty || isUploading}
-                        // onClick={handleSubmit}
-                        onClick={mode === 'comment' ? handleComment : handleSubmit}
-                    >
-                        {mode === 'comment' ? 'Reply' : 'Post'}
-                    </button>
                 </div>
-                {/* Render content with highlighted tags */}
                 <div className="mt-2">
                     {/* {renderContentWithTags()} */}
                 </div>

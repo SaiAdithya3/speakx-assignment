@@ -10,7 +10,7 @@ const ProfilePosts = (props) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('https://speakx-assignment-pj4w.onrender.com/api/posts/postsbyuser/' + userId);
+        const response = await axios.get('http://localhost:5000/api/posts/postsbyuser/' + userId);
         const sortedTweets = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setTweets(sortedTweets);
       } catch (error) {

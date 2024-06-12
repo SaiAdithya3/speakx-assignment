@@ -27,7 +27,7 @@ const TweetCard = (props) => {
 
   const handleLike = async () => {
     try {
-      const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/posts/like', { postId: tweet._id, userId: userId });
+      const response = await axios.post('http://localhost:5000/api/posts/like', { postId: tweet._id, userId: userId });
       setLikes(response.data.post.likes.length);
       // console.log(response.data.post.likes.length);
       // console.log(response.data);
@@ -42,7 +42,7 @@ const TweetCard = (props) => {
       if (tweet.tags.includes(part)) {
         return <span key={index} style={{ color: '#1d9bf0', paddingLeft: '2px' }}>{part}</span>;
       } else {
-        return <span key={index}>{part}</span>;
+        return <span className='whitespace-nowrap' key={index}>{part}</span>;
       }
     });
   };

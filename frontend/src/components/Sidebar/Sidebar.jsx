@@ -16,7 +16,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm" style={{zIndex: 100}}>
             <div className="bg-black border border-gray-700 rounded-lg w-full max-w-lg mx-auto p-4 relative">
                 <button className="absolute top-5 right-5 text-white" onClick={onClose}>
                     <FaTimes />
@@ -49,7 +49,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <div className="z-50 left-0 top-0 bg-black h-screen justify-between flex flex-col p-3 border-r border-zinc-700/90">
+            <div className="z-50 left-0 top-0 pr-16 bg-black h-screen justify-between flex flex-col p-3 border-r border-zinc-700/90">
                 <div className="flex flex-col gap-2">
                     <div className="logo p-2 flex items-start w-full">
                         <img src='https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-black-icon.png' alt='logo' className='w-8 h-8 invert' />
