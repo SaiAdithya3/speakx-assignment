@@ -21,7 +21,7 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
+      const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/auth/login', loginData);
       console.log(response.data);
       setUser(response.data); 
       localStorage.setItem('user', JSON.stringify(response.data));
