@@ -138,7 +138,7 @@ const CreatePost = ({ mode, onPostCreated, postId }) => {
 
     return (
         <div className={`w-full flex border-zinc-500/50 ${mode === 'comment' ? "p-2 py-4 border-b" : "border-b p-4"}`}>
-            <img src={user && user.profilePic} alt="profile" className='w-12 h-12 mr-4 rounded-full' />
+            <img src={`${user && user.profilePic}`} alt="profile" className='w-12 h-12 mr-4 rounded-full' />
             <div className="flex flex-col w-full">
                 <textarea
                     className="w-full h-12 p-2 bg-transparent focus:border-b border-zinc-500 resize-none focus:outline-none"

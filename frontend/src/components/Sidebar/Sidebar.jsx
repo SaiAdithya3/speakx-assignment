@@ -16,7 +16,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm" style={{zIndex: 100}}>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
             <div className="bg-black border border-gray-700 rounded-lg w-full max-w-lg mx-auto p-4 relative">
                 <button className="absolute top-5 right-5 text-white" onClick={onClose}>
                     <FaTimes />

@@ -23,7 +23,7 @@ const Login = () => {
     try {
       const response = await axios.post('https://speakx-assignment-pj4w.onrender.com/api/auth/login', loginData);
       console.log(response.data);
-      setUser(response.data); 
+      setUser(response.data);
       localStorage.setItem('user', JSON.stringify(response.data));
       toast.success('Logged in successfully!');
       navigate('/');

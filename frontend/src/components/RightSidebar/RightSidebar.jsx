@@ -7,7 +7,7 @@ import SubscribeCard from './SubscribeCard';
 const RightSidebar = () => {
     return (
         <>
-            <div className="hidden md:flex z-5 0 overflow-y-scroll no-scrollbar flxed right-0 top-0 bg-black h-screen flex-col pr-16 p-1 px-6 border-l border-zinc-700/90">
+            <div className="hidden md:flex z-5 0 overflow-y-scroll no-scrollbar -z-50 bg-black h-screen flex-col pr-16 p-1 px-6 border-l border-zinc-700/90">
                 <div className="w-full  p-2 flex items-center">
                     <div className="w-full flex items-center bg-zinc-800/70 rounded-full gap-2">
                         <IoSearchSharp className=' text-white p-2 text-4xl' />

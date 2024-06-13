@@ -68,26 +68,26 @@ const PostDetailCard = (props) => {
                             {renderContentWithTags()}
                         </p>
                         {post.imageUrls.length === 4 && (
-                            <div className="w-full flex flex-wrap items-center justify-between gap-2">
-                                <img src={post.imageUrls[1]} alt="post" className="w-[48%] h-full rounded-xl" />
-                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
-                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
-                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] h-full rounded-xl" />
+                            <div className="w-full flex flex-wrap items-center justify-around gap-3 pt-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] rounded-xl" />
+                                <img src={post.imageUrls[3]} alt="post" className="w-[48%] rounded-xl" />
+                                <img src={post.imageUrls[2]} alt="post" className="w-[48%] rounded-xl" />
+                                <img src={post.imageUrls[1]} alt="post" className="w-[48%] rounded-xl" />
                             </div>
                         )}
                         {post.imageUrls.length === 3 && (
-                            <div className="w-full flex items-center justify-between gap-2">
-                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] h-full rounded-xl" />
-                                <div className="w-[48%] gap-2">
+                            <div className="w-full flex justify-around gap-2 pt-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] object-cover h-full rounded-xl" />
+                                <div className="w-[48%] gap-2 flex flex-col">
                                     <img src={post.imageUrls[1]} alt="post" className="w-[100%] h-full rounded-xl" />
                                     <img src={post.imageUrls[2]} alt="post" className="w-[100%] h-full rounded-xl" />
                                 </div>
                             </div>
                         )}
                         {post.imageUrls.length === 2 && (
-                            <div className="w-full flex items-center justify-between gap-2">
-                                <img src={post.imageUrls[0]} alt="post" className="w-[48%] h-full rounded-xl" />
-                                <img src={post.imageUrls[1]} alt="post" className="w-[48%] h-full rounded-xl" />
+                            <div className="w-full flex justify-around gap-2">
+                                <img src={post.imageUrls[0]} alt="post" className="w-1/2 rounded-xl" />
+                                <img src={post.imageUrls[1]} alt="post" className="w-1/2 rounded-xl" />
                             </div>
                         )}
                         {post.imageUrls.length === 1 && (
@@ -126,7 +126,7 @@ const PostDetailCard = (props) => {
                         </div>
                     </div>
                     {/* comments go here */}
-                    <CreatePost mode="comment" postId={post._id}/>
+                    <CreatePost mode="comment" postId={post._id} />
 
                     {post.comments ? post.comments.map((comment, index) => (
                         <CommentCard key={index} tweet={comment} />

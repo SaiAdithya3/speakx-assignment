@@ -68,3 +68,7 @@ body {
       transform: rotate(360deg);
     }
   }
+
+  .zi{
+    z-index: 1000;
+  }

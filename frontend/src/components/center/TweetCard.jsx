@@ -49,7 +49,7 @@ const TweetCard = (props) => {
   return (
     <>
       <div className="w-full flex items-start px-6 gap-4 py-4 border-b border-zinc-700 hover:bg-zinc-900 cursor-pointer">
-        <img src={tweet.author.profilePic} alt="profile" className="w-12 h-12 rounded-full" />
+        <img src={`${tweet.author.profilePic}`} alt="profile" className="w-12 h-12 rounded-full" />
         <div className="flex items-center flex-col justify-center w-full">
           <Link to={`/${tweet.author.username}/post/${tweet._id}`} className='w-full'>
             <div className="w-full flex items-center justify-between">
@@ -70,10 +70,10 @@ const TweetCard = (props) => {
                 {renderContentWithTags()}
               </p>
               {tweet.imageUrls.length === 4 && (
-                <div className="w-full flex flex-wrap items-center justify-between gap-2">
+                <div className="w-full flex flex-wrap items-center justify-around gap-2">
+                  <img src={tweet.imageUrls[0]} alt="tweet" className="w-[48%] h-full rounded-xl" />
+                  <img src={tweet.imageUrls[3]} alt="tweet" className="w-[48%] h-full rounded-xl" />
                   <img src={tweet.imageUrls[1]} alt="tweet" className="w-[48%] h-full rounded-xl" />
-                  <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
-                  <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
                   <img src={tweet.imageUrls[2]} alt="tweet" className="w-[48%] h-full rounded-xl" />
                 </div>
               )}

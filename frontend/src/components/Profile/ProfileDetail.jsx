@@ -4,11 +4,14 @@ import { PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { CiCalendar } from "react-icons/ci";
 import ProfilePosts from './ProfilePosts';
 import { toast } from 'sonner';
+import EditProfileModal from './EditProfileModal';
 
 const ProfileDetail = (props) => {
     const { profile, isCurrentUser } = props;
     const [activeSection, setActiveSection] = useState('Posts');
     const [isFollowing, setIsFollowing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [updatedProfile, setUpdatedProfile] = useState(profile);
 
     const userId = JSON.parse(localStorage.getItem('user'))?._id;
 
@@ -41,16 +44,30 @@ const ProfileDetail = (props) => {
     };
 
     const handleEditProfileClick = () => {
-        toast.info("Edit profile functionality is not yet implemented");
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleProfileUpdate = (newProfileData) => {
+        setUpdatedProfile(prevProfile => ({
+            ...prevProfile,
+            ...newProfileData
+        }));
     };
 
     return (
         <>
             <div className="w-full flex items-center flex-col">
                 <div className="w-full flex items-center flex-col">
-                    <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-cover" />
+                    <img src={updatedProfile.bannerImage} alt="profile banner" className="w-full h-52 object-cover" />
+                    {/* <img src="https://www.porschedriving.com/los-angeles/-/media/porschedrivinglosangeles/backgrounds/gridwall/l---718-gt4-rs-banner/l---718-gt4-rs-banner-2/l---718-gt4-rs-banner-3/l---718-gt4-rs-banner-4.jpg" alt="profile" className="w-full h-52 object-cover" /> */}
+
                     <div className="flex items-end w-full justify-between px-6 -mt-20">
-                        <img src={profile.profilePic} alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
+                        <img src={`${updatedProfile.profilePic}`} alt="profile" className="w-36 h-36 rounded-full border-4 border-black" />
+                        
                         <div className="flex items-center gap-3 py-6">
                             <PiDotsThreeOutlineFill className='text-white border rounded-full text-3xl p-1.5' />
                             {isCurrentUser ? (
@@ -63,15 +80,16 @@ const ProfileDetail = (props) => {
                         </div>
                     </div>
                     <div className="flex flex-col w-full items-start px-6 py-3">
-                        <h1 className="text-xl font-semibold">{profile.username}</h1>
-                        <h1 className="text-xs text-zinc-600">@{profile.username}</h1>
-                        <h1 className="text-xs py-3 text-zinc-200 flex items-center gap-1"> <CiCalendar />Joined {formatTimestamp(profile.createdAt)}</h1>
-                        <h1 className="text-xs text-zinc-600 gap-5 flex">
+                        <h1 className="text-xl font-semibold">{updatedProfile.username}</h1>
+                        <h1 className="text-xs text-zinc-400">@{updatedProfile.username}</h1>
+                        <h1 className="text-md font-medium">{updatedProfile && updatedProfile.bio}</h1>
+                        <h1 className="text-xs py-3 text-zinc-200 flex items-center gap-1"> <CiCalendar className='text-xl'/>Joined {formatTimestamp(updatedProfile.createdAt)}</h1>
+                        <h1 className="text-xs text-zinc-400 gap-5 flex">
                             <span>
-                                <span className="text-white font-semibold">{profile?.followers?.length}</span> Followers
+                                <span className="text-white font-semibold">{updatedProfile?.followers?.length}</span> Followers
                             </span>
                             <span>
-                                <span className="text-white font-semibold">{profile?.following?.length}</span> Following
+                                <span className="text-white font-semibold">{updatedProfile?.following?.length}</span> Following
                             </span>
                         </h1>
                     </div>
@@ -97,6 +115,13 @@ const ProfileDetail = (props) => {
             {activeSection === 'Likes' && (
                 <div>Likes Content</div>
             )}
+
+            <EditProfileModal
+                profile={updatedProfile}
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                onUpdateProfile={handleProfileUpdate}
+            />
         </>
     );
 };
