@@ -30,9 +30,8 @@ export const getUserDetailsByUsername = async (req, res) => {
 
 export const followUser = async (req, res) => {
     try {
-        const { userId, followId } = req.body; // userId is the current user, followId is the user to follow
+        const { userId, followId } = req.body; 
 
-        // Find the current user and the user to follow
         const user = await User.findById(userId);
         const followUser = await User.findById(followId);
 
@@ -40,12 +39,10 @@ export const followUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Check if already following
         if (user.following.includes(followId)) {
             return res.status(400).json({ message: 'Already following the user' });
         }
 
-        // Add to following and followers
         user.following.push(followId);
         followUser.followers.push(userId);
 
@@ -61,9 +58,8 @@ export const followUser = async (req, res) => {
 
 export const unfollowUser = async (req, res) => {
     try {
-        const { userId, followId } = req.body; // userId is the current user, followId is the user to unfollow
+        const { userId, followId } = req.body;
 
-        // Find the current user and the user to unfollow
         const user = await User.findById(userId);
         const unfollowUser = await User.findById(followId);
 
@@ -71,12 +67,10 @@ export const unfollowUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Check if already not following
         if (!user.following.includes(followId)) {
             return res.status(400).json({ message: 'Not following the user' });
         }
 
-        // Remove from following and followers
         user.following = user.following.filter(id => id.toString() !== followId);
         unfollowUser.followers = unfollowUser.followers.filter(id => id.toString() !== userId);
 
@@ -86,6 +80,21 @@ export const unfollowUser = async (req, res) => {
         res.status(200).json({ message: 'User unfollowed successfully', user });
     } catch (error) {
         console.error("Error unfollowing user:", error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const fetchAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({});
+
+        if (!users) {
+            return res.status(404).json({ message: 'No users found' });
+        }
+
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching all users:", error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

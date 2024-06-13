@@ -27,7 +27,8 @@ export const signupUser = async (req, res) => {
             password: hashedPassword,
             fullName,
             bio,
-            profilePic: `https://avatar.iran.liara.run/public/boy?username=${username}`
+            profilePic: `https://avatar.iran.liara.run/public/boy?username=${username}`,
+            bannerImage: `https://autoweltschweiz.ch/wp-content/uploads/2023/02/KOENIGSEGG-banner-min-scaled-1-e1676972930508-2048x764.jpg`
         });
 
         await newUser.save();
